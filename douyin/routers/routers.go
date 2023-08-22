@@ -21,6 +21,7 @@ func SetupRouter() *gin.Engine {
 	}
 
 	douyin.POST("/publish/action/", controller.PublishActionHandler)
+	douyin.GET("/user/", controller.UserActionHandler)
 
 	return r
 }

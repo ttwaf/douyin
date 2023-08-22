@@ -8,7 +8,7 @@ import (
 	"errors"
 )
 
-func SignUp(p *models.RegisterForm) (error error)  {
+func SignUp(p *models.RegisterForm) (error error) {
 
 	//1、判断用户是否存在
 	err := mysql.CheckUserExist(p.UserName)
@@ -23,24 +23,24 @@ func SignUp(p *models.RegisterForm) (error error)  {
 	}
 	//构造一个user实例
 	u := models.User{
-		UserID:		userId,
-		UserName:	p.UserName,
-		Password:	p.Password,
-		Name:		p.Name,
+		UserID:   userId,
+		UserName: p.UserName,
+		Password: p.Password,
+		Name:     p.Name,
 	}
 	//保存到数据库。要加密的
 	return mysql.InsertUser(u)
 }
 
-func Login(p *models.LoginForm) (atoken, rtoken string, error error )  {//在这第二次用到models.LoginForm。注册也是
+func Login(p *models.LoginForm) (atoken, rtoken string, error error) { //在这第二次用到models.LoginForm。注册也是
 	//放到user里面
 	user := &models.User{
 		UserName: p.UserName,
 		Password: p.Password,
 	}
 	if err := mysql.Login(user); err != nil {
-		return "","", err
+		return "", "", err
 	}
 	//生成jwt
-	return jwt.GenToken(user.UserID,user.UserName)
+	return jwt.GenToken(user.UserID, user.UserName)
 }
