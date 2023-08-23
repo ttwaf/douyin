@@ -6,7 +6,6 @@ import (
 	"douyin/models"
 	"encoding/hex"
 	"errors"
-	"fmt"
 )
 
 const secret = "douyin.vip"
@@ -23,7 +22,6 @@ func CheckUserExist(username string) (error error)  {
 	var count int
 	//查是否出错
 	if err := db.Get(&count, sqlStr, username); err != nil {//get是接收
-		fmt.Println("查询出错")
 		return err
 	}
 	if count > 0 {
@@ -33,12 +31,12 @@ func CheckUserExist(username string) (error error)  {
 }
 
 //向数据库插入一个新用户
-func InsertUser(user models.User) (error error) {
+func InsertUser(user *models.RegisterForm) (error error) {
 	//对密码进行加密md5
 	user.Password = encryptPassword([]byte(user.Password))//密码拿出来生成新的密文密码之后再放回去
 	//执行SQL语句入库
-	sqlstr := `insert into users(user_id,username,password,name) values (?,?,?,?)`
-	_, err := db.Exec(sqlstr,user.UserID,user.UserName,user.Password,user.Name)
+	sqlstr := `insert into users(user_id,username,password) values (?,?,?)`//把name字段删掉
+	_, err := db.Exec(sqlstr,user.UserID,user.UserName,user.Password)
 	if err != nil {
 		//fmt.Println("插入出错")
 		return errors.New("插入出错")
@@ -46,7 +44,14 @@ func InsertUser(user models.User) (error error) {
 	return
 }
 
-func Login(user *models.User) (err error) {
+//func Login(userName string) (u *models.RegisterForm, err error) {
+//	u = new(models.RegisterForm)
+//	originPassword := user.Password
+//	sqlStr := `select user_id,username,password from users where username = ?`//用名字去查其它信息
+//	err = db.Get(u, )
+//}
+
+func Login(user *models.RegisterForm) (userId uint64, err error) {
 	originPassword := user.Password
 	sqlStr := `select user_id,username,password from users where username = ?`//用名字去查其它信息
 	err = db.Get(user, sqlStr, user.UserName)
@@ -56,11 +61,11 @@ func Login(user *models.User) (err error) {
 	}
 	if err == sql.ErrNoRows {
 		//用户不存在
-		return errors.New("用户不存在")
+		return 0, errors.New("用户不存在")
 	}
 	password := encryptPassword([]byte(originPassword))//再加密一遍
 	if user.Password != password {
-		return errors.New("密码错误")
+		return 0,errors.New("密码错误")
 	}
 	return
 }
