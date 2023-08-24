@@ -1,7 +1,7 @@
 package main
 
 import (
-	"douyin/dao/mysql"
+	"douyin/logic"
 	"douyin/pkg/snowflake"
 	"douyin/routers"
 	"fmt"
@@ -9,7 +9,7 @@ import (
 
 //localhost:8081
 func main() {
-	if err := mysql.InitDB(); err != nil {
+	if err := logic.InitDB(); err != nil {
 		fmt.Printf("init mysql failed, err:%v\n", err)
 		return
 	}
