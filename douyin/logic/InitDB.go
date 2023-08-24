@@ -1,4 +1,4 @@
-/*package mysql
+package logic
 
 import (
 	"gorm.io/driver/mysql"
@@ -20,7 +20,7 @@ func InitDB() (err error) {
 		return err
 	}
 	return nil
-}*/
+}
 
 // Close 关闭MySQL连接 Gorm中不需要关心数据库连接关闭问题
 //func Close() {
