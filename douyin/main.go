@@ -8,7 +8,7 @@ import (
 )
 //localhost:8081
 func main() {
-	if err := mysql.InitDB(); err != nil {
+	if err := mysql.InitMysql(); err != nil {
 		fmt.Printf("init mysql failed, err:%v\n", err)
 		return
 	}
