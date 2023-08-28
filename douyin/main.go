@@ -1,14 +1,15 @@
 package main
 
 import (
-	"douyin/dao/mysql"
+	"douyin/logic"
 	"douyin/pkg/snowflake"
 	"douyin/routers"
 	"fmt"
 )
+
 //localhost:8081
 func main() {
-	if err := mysql.InitDB(); err != nil {
+	if err := logic.InitDB(); err != nil {
 		fmt.Printf("init mysql failed, err:%v\n", err)
 		return
 	}
@@ -16,10 +17,11 @@ func main() {
 		fmt.Printf("init snowflake failed, err:%v\n", err)
 		return
 	}
-	defer mysql.Close() // 程序退出关闭数据库连接
+	//defer mysql.Close() // 程序退出关闭数据库连接
+	//gorm不需要
 
 	//注册路由
-	r := routers.SetupRouter()//注册全局的r路由。全放在里面
+	r := routers.SetupRouter() //注册全局的r路由。全放在里面
 
 	err := r.Run(":8081")
 	if err != nil {

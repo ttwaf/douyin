@@ -22,5 +22,5 @@ CREATE TABLE `users` (
     `token` VARCHAR(255) UNIQUE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
-待添加功能备忘录：
-登录密码长度要求
+# 待添加功能备忘录：
+# 登录密码长度要求
