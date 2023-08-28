@@ -17,7 +17,7 @@ type MyClaims struct {
 	jwt.StandardClaims
 }
 
-//定义Secret 用于加密的字符串
+// 定义Secret 用于加密的字符串
 var mySecret = []byte("bluebell")
 
 func keyFunc(_ *jwt.Token) (i interface{}, err error) {

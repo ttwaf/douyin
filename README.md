@@ -12,3 +12,5 @@ func InitDB() (err error)
 ```
 
 不建议使用dao目录
+
+userID 在/pkg/jwt claim 中

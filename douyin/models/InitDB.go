@@ -1,4 +1,4 @@
-package logic
+package models
 
 import (
 	"gorm.io/driver/mysql"
